@@ -1,0 +1,27 @@
+.projects-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-project {
+  width: 100%;
+}
+
+.card-customer {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .projects-page {
+    flex-direction: row;
+  }
+
+  .card-project {
+    flex: 2;
+  }
+
+  .card-customer {
+    flex: 1;
+  }
+}
