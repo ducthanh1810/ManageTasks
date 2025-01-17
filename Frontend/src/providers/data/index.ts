@@ -1,7 +1,5 @@
 import type { DataProvider } from "@refinedev/core";
-import api from "../api";
-
-export const API_BASE_URL = import.meta.env.VITE_BASE_API;
+import api, { API_BASE_URL } from "../api";
 
 export const dataProvider: DataProvider = {
   getApiUrl: () => API_BASE_URL,

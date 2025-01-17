@@ -8,7 +8,7 @@ import { Card, Input, Space, Table } from "antd";
 import { CustomAvatar, Text } from "@/components";
 import { IProfile, IProject } from "@/model/types";
 import { useUpdate } from "@refinedev/core";
-import { API_BASE_URL } from "@/providers";
+import { API_BASE_URL } from "@/providers/api";
 
 export const ProjectOfCustomerTable = ({
   resource,

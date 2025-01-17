@@ -11,7 +11,7 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import { dataProvider } from "./providers";
 import { App as AntdApp } from "antd";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { HashRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./providers/authProvider";
 import { Layout } from "./components";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -23,6 +23,7 @@ import {
   ListTasksPage,
   TasksCreatePage,
   TasksEditPage,
+  PageNotFound,
 } from "./pages/index";
 import { resources } from "./config/resources";
 import {
@@ -35,7 +36,7 @@ import { CustomerEditPage, ProjectEditPage } from "./pages/project/edit";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <AntdApp>
@@ -98,6 +99,7 @@ function App() {
                     <Route path="edit/:id" element={<TasksEditPage />} />
                   </Route>
                 </Route>
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
 
               <RefineKbar />
@@ -113,7 +115,7 @@ function App() {
           </AntdApp>
         </ColorModeContextProvider>
       </RefineKbarProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { API_BASE_URL } from ".";
+
+export const API_BASE_URL = import.meta.env.VITE_BASE_API;
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API,
+  baseURL: API_BASE_URL,
 });
 
 api.interceptors.request.use(

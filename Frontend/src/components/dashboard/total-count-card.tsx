@@ -4,8 +4,6 @@ import {
   AuditOutlined,
   CalendarOutlined,
   ExceptionOutlined,
-  ShopOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
 import { Area, AreaConfig } from "@ant-design/plots";
 import { Card, Skeleton } from "antd";

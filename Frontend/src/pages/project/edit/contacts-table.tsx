@@ -27,8 +27,8 @@ import {
 } from "@/components";
 import { ContactStatus, IProfile } from "@/model/types";
 import { useUpdate } from "@refinedev/core";
-import { act, useState } from "react";
-import { API_BASE_URL } from "@/providers";
+import { useState } from "react";
+import { API_BASE_URL } from "@/providers/api";
 
 export const ProjectContactsTable = ({
   resource,
