@@ -1,8 +1,7 @@
-import { Space, Typography } from "antd";
+import { Typography } from "antd";
 
 import { UserTag } from "../../../../../components/tags";
 import { IProject, ITask } from "../../../../../model/types";
-import { useList } from "@refinedev/core";
 
 type Props = {
   project?: IProject;

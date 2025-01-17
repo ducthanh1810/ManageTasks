@@ -1,11 +1,8 @@
 import type { DataProvider } from "@refinedev/core";
-import { jwtDecode } from "jwt-decode";
-import api from "../../api";
-import { useNavigate } from "react-router-dom";
+import api from "../api";
 
-export const API_BASE_URL = "http://localhost:8000";
-//export const API_BASE_URL = "https://mentally-square-gator.ngrok-free.app";
-//export const API_BASE_URL = "https://tasksmanager-lake.vercel.app";
+export const API_BASE_URL = import.meta.env.VITE_BASE_API;
+
 export const dataProvider: DataProvider = {
   getApiUrl: () => API_BASE_URL,
   getOne: async ({ resource, id }) => {

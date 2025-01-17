@@ -1,6 +1,6 @@
 import { TotalChart } from "@/components";
 import { ProjectsPage } from "../list";
-import { useGo, useList, useOne } from "@refinedev/core";
+import { useGo, useOne } from "@refinedev/core";
 import { ProjectTasksTotal } from "@/model/types";
 import { useLocation } from "react-router";
 import { Modal } from "antd";
@@ -16,7 +16,7 @@ export const ChartTaskPage = () => {
     { label: string; value: number }[]
   >([]);
 
-  const { data, isLoading, isError } = useOne<ProjectTasksTotal>({
+  const { data } = useOne<ProjectTasksTotal>({
     resource: "project/tasks",
     id: id,
   });

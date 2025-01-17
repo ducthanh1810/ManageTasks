@@ -1,7 +1,4 @@
 import { useForm } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
-
 import { Button, DatePicker, Form, Space, theme } from "antd";
 import dayjs from "dayjs";
 

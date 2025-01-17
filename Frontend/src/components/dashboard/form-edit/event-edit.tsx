@@ -1,7 +1,7 @@
 import { SaveButton, TextField, useForm } from "@refinedev/antd";
 import { HttpError, useUpdate, useCreate } from "@refinedev/core";
 import { GetFields, GetVariables } from "@refinedev/nestjs-query";
-import api from "../../../api";
+import api from "../../../providers/api";
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Card, Drawer, Form, Input, Spin, theme } from "antd";
 import type { FormProps } from "antd";

@@ -1,6 +1,5 @@
 import { Col, Row } from "antd";
 
-import { ProjectContactsTable } from "./contacts-table";
 import { CustomerForm } from "./customer-form";
 import { ProjectOfCustomerTable } from "./project-of-customer";
 

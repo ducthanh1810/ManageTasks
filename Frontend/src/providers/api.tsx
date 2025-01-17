@@ -1,11 +1,9 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { API_BASE_URL } from "./providers";
+import { API_BASE_URL } from ".";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000",
-  //baseURL: "https://mentally-square-gator.ngrok-free.app",
-  //baseURL: "https://tasksmanager-lake.vercel.app",
+  baseURL: import.meta.env.VITE_BASE_API,
 });
 
 api.interceptors.request.use(

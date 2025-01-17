@@ -1,15 +1,9 @@
 import { IProfile } from "@/model/types";
-import { log } from "@antv/g2plot/lib/utils";
-import { useForm, useSelect } from "@refinedev/antd";
-import { HttpError, useInvalidate, useUpdate } from "@refinedev/core";
-import {
-  GetFields,
-  GetFieldsFromList,
-  GetVariables,
-} from "@refinedev/nestjs-query";
+import { useSelect } from "@refinedev/antd";
+import { useInvalidate, useUpdate } from "@refinedev/core";
 
 import { Button, Form, Select, Space } from "antd";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = {
   taskId?: string;
@@ -19,18 +13,12 @@ type Props = {
 };
 
 type initialValues = { label: string; value: string }[];
-interface User {
-  id: string;
-  last_name: string;
-}
 
 export const UsersForm = ({ taskId, initialValues, cancelForm }: Props) => {
-  const invalidate = useInvalidate();
   const [default_value, setInitialValues] =
     useState<initialValues>(initialValues);
-  const { mutate, isLoading: isUpdating } = useUpdate();
+  const { mutate } = useUpdate();
   const [form] = Form.useForm<{ users: any }>();
-  const selectRef = useRef();
   // const { formProps, saveButtonProps } = useForm({
   //   resource: "tasks/update",
   //   action: "edit",

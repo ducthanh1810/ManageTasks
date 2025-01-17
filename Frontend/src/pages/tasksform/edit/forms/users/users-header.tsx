@@ -2,7 +2,6 @@ import { Space, Typography } from "antd";
 
 import { UserTag } from "../../../../../components/tags";
 import { IProfile, ITask } from "../../../../../model/types";
-import { useList } from "@refinedev/core";
 
 type Props = {
   users?: IProfile[];

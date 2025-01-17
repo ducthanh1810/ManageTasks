@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import { useForm } from "@refinedev/antd";
-import { HttpError, useInvalidate } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
+import { useInvalidate } from "@refinedev/core";
 
 import { Form, Skeleton } from "antd";
 

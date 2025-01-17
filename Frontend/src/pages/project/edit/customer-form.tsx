@@ -1,18 +1,11 @@
 import { Edit, useForm } from "@refinedev/antd";
-import {
-  useGo,
-  useResourceParams,
-  HttpError,
-  useOne,
-  useResource,
-} from "@refinedev/core";
+import { useGo, HttpError } from "@refinedev/core";
 
-import { Button, Form, Input, theme } from "antd";
+import { Form, Input } from "antd";
 
 import { CustomAvatar } from "@/components";
 import { ICustomer } from "@/model/types";
 import { useLocation } from "react-router-dom";
-import { API_BASE_URL } from "@/providers";
 
 export const CustomerForm = () => {
   const go = useGo();

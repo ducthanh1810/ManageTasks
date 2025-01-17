@@ -1,18 +1,10 @@
 import { useParams } from "react-router";
 
-import {
-  FilterDropdown,
-  useTable,
-  useSelect,
-  DeleteButton,
-} from "@refinedev/antd";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
+import { FilterDropdown, useTable, useSelect } from "@refinedev/antd";
 
 import {
-  CloseOutlined,
   DeleteOutlined,
   MailOutlined,
-  PhoneOutlined,
   SearchOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
@@ -33,7 +25,7 @@ import {
   SelectOptionWithAvatar,
   Text,
 } from "@/components";
-import { ContactStatus, ICustomer, IProfile } from "@/model/types";
+import { ContactStatus, IProfile } from "@/model/types";
 import { useUpdate } from "@refinedev/core";
 import { act, useState } from "react";
 import { API_BASE_URL } from "@/providers";

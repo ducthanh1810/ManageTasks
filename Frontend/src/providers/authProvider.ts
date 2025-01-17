@@ -1,7 +1,5 @@
 import { AuthProvider, HttpError } from "@refinedev/core";
 import { API_BASE_URL } from "./data";
-import api from "../api";
-
 export const TOKEN_KEY = "refine-auth";
 
 export const authProvider: AuthProvider = {

@@ -1,16 +1,9 @@
 import { SelectOptionWithAvatar } from "@/components";
 import { IProject } from "@/model/types";
-import { log } from "@antv/g2plot/lib/utils";
-import { useForm, useSelect } from "@refinedev/antd";
-import { HttpError, useInvalidate, useUpdate } from "@refinedev/core";
-import {
-  GetFields,
-  GetFieldsFromList,
-  GetVariables,
-} from "@refinedev/nestjs-query";
+import { useSelect } from "@refinedev/antd";
+import { useUpdate } from "@refinedev/core";
 
-import { Button, Form, Select, Space } from "antd";
-import React, { useRef, useState } from "react";
+import { Select } from "antd";
 
 type Props = {
   taskId?: string;
@@ -19,7 +12,7 @@ type Props = {
 };
 
 export const ProjectForm = ({ taskId, initialValues, cancelForm }: Props) => {
-  const { mutate, isLoading: isUpdating } = useUpdate();
+  const { mutate } = useUpdate();
 
   const { selectProps, queryResult: queryResultUsers } = useSelect<IProject>({
     resource: "projects",
@@ -30,19 +23,12 @@ export const ProjectForm = ({ taskId, initialValues, cancelForm }: Props) => {
   });
 
   const handleChange = (value: any) => {
-    mutate(
-      {
-        resource: "tasks/update",
-        id: taskId!,
-        values: { project: value },
-        successNotification: false,
-      },
-      {
-        // onSuccess: () => {
-        //   setInitialValues({ users: value });
-        // },
-      }
-    );
+    mutate({
+      resource: "tasks/update",
+      id: taskId!,
+      values: { project: value },
+      successNotification: false,
+    });
   };
 
   return (

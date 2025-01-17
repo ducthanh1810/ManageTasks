@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Card, Checkbox, DatePicker, Select, theme } from "antd";
+import { Checkbox, DatePicker, Select, theme } from "antd";
 import {
   KanbanBoard,
   KanbanBoardContainer,
   KanbanColumn,
   KanbanItem,
-  ProjectCard,
   ProjectCardMemo,
   KabanAddCardButton,
   ProjectCardSkeleton,
@@ -13,15 +12,12 @@ import {
 } from "../../../components/tasks";
 import {
   ITask,
-  ITaskUser,
-  IUser,
   stages,
   ITasksStages,
   FilterTask,
   IProject,
 } from "../../../model/types";
 import {
-  CrudFilter,
   CrudOperators,
   HttpError,
   LogicalFilter,
@@ -42,8 +38,8 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
   const { token } = theme.useToken();
   const { replace } = useNavigation();
   const [isReload, setReload] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
   const [filterTasks, setFilterTasks] = useState<LogicalFilter[]>([]);
+
   const { data: list_tasks, isLoading: tasksLoading } = useList<ITask>({
     resource: "tasks",
     queryOptions: {
@@ -51,12 +47,7 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
     },
     filters: filterTasks,
   });
-  const { data: list_users, isLoading: userLoading } = useList<IUser>({
-    resource: "users",
-    queryOptions: {
-      enabled: false,
-    },
-  });
+
   const { mutate: updateTask } = useUpdate<ITask, HttpError>();
 
   useEffect(() => {
@@ -103,10 +94,10 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
         successNotification: false,
       },
       {
-        onError: (error, variables, context) => {
+        onError: () => {
           // An error occurred!
         },
-        onSuccess: (data, variables, context) => {
+        onSuccess: () => {
           setReload(false);
         },
       }
@@ -139,8 +130,8 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
     });
   };
 
-  const isLoading = tasksLoading || userLoading;
-  if (tasksLoading && userLoading) return <PageSkeleton />;
+  const isLoading = tasksLoading;
+  if (tasksLoading) return <PageSkeleton />;
   return (
     <div>
       <div

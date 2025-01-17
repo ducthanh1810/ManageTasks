@@ -1,11 +1,9 @@
-import { useApiUrl, useCustom, useList, useOne } from "@refinedev/core";
+import { useList, useOne } from "@refinedev/core";
 import { HistoryAbsent, TotalChart, UpcomingEvents } from "../../components";
 import { Col, Row } from "antd";
 import { ITask, ITotal } from "../../model/types";
-import api from "../../api";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DashboardTotalCountCard } from "../../components/dashboard/total-count-card";
-import { useDocumentTitle } from "@refinedev/react-router-v6";
 
 export const Home = () => {
   const [total, setTotal] = useState<ITotal>();
@@ -19,7 +17,7 @@ export const Home = () => {
     id: -1,
   });
 
-  const { data: tasks, isLoading: LoadingTasks } = useList<ITask>({
+  const { data: tasks } = useList<ITask>({
     resource: "tasks",
   });
 

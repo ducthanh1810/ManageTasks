@@ -1,6 +1,6 @@
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 
-import { FilterDropdown, useTable, useSelect } from "@refinedev/antd";
+import { FilterDropdown, useTable } from "@refinedev/antd";
 
 import { SearchOutlined, TeamOutlined } from "@ant-design/icons";
 import { Card, Input, Space, Table } from "antd";
@@ -21,7 +21,6 @@ export const ProjectOfCustomerTable = ({
   const query = useQuery();
   const id = Number(query.get("id")) || 0;
 
-  const { mutate } = useUpdate();
   const { tableProps } = useTable<IProject>({
     resource: resource,
     syncWithLocation: false,

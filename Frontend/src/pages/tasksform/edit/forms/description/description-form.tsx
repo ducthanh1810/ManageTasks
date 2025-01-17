@@ -1,6 +1,4 @@
 import { useForm } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
-import { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import MDEditor from "@uiw/react-md-editor";
 import { Button, Form, Space } from "antd";

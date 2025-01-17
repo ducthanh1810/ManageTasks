@@ -1,10 +1,4 @@
-import { useForm, useSelect } from "@refinedev/antd";
-import { HttpError } from "@refinedev/core";
-import {
-  GetFields,
-  GetFieldsFromList,
-  GetVariables,
-} from "@refinedev/nestjs-query";
+import { useForm } from "@refinedev/antd";
 
 import { FlagOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Select, Space } from "antd";

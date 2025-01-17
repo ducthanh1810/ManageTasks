@@ -1,8 +1,6 @@
 import { Edit, useForm, useSelect } from "@refinedev/antd";
 import { useResourceParams } from "@refinedev/core";
-
 import { DatePicker, Form, Input, Select, theme } from "antd";
-
 import { CustomAvatar, SelectOptionWithAvatar } from "@/components";
 import { ICustomer, IProject } from "@/model/types";
 import dayjs from "dayjs";
