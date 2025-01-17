@@ -8,7 +8,7 @@ export const authProvider: AuthProvider = {
       username: email,
       password: password,
     };
-    const response = await fetch(`${API_BASE_URL}/api/token/`, {
+    const response = await fetch(`${API_BASE_URL}/token/`, {
       method: "POST",
       body: JSON.stringify(userCredentials),
       headers: {
@@ -27,7 +27,7 @@ export const authProvider: AuthProvider = {
     return { success: false };
   },
   register: async ({ username, password, providerName }) => {
-    const response = await fetch(`${API_BASE_URL}/api/user/register/`, {
+    const response = await fetch(`${API_BASE_URL}/user/register/`, {
       method: "POST",
       body: JSON.stringify({
         username,
@@ -85,7 +85,7 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => null,
   getIdentity: async () => {
     const accessToken = localStorage.getItem("access_token");
-    const response = await fetch(`${API_BASE_URL}/api/token/me`, {
+    const response = await fetch(`${API_BASE_URL}/token/me`, {
       headers: accessToken
         ? {
             Authorization: `Bearer ${accessToken}`,

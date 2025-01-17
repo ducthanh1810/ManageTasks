@@ -30,7 +30,7 @@ services:
     depends_on:
       - db
     networks:
-      - app_network
+      - app_task_manage_network
 
   db:
     image: postgres:15
@@ -50,7 +50,7 @@ services:
       - tmapp_static_volume:/home/app/api/static
       - tmapp_media_volume:/home/app/api/media
     ports:
-      - 1337:80
+      - 1338:80
     depends_on:
       - api
       - web

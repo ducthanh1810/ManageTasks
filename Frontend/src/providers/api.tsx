@@ -19,7 +19,7 @@ api.interceptors.request.use(
 
     const refresh = localStorage.getItem("refresh_token");
 
-    const response = await fetch(`${API_BASE_URL}/api/token/refresh/`, {
+    const response = await fetch(`${API_BASE_URL}/token/refresh/`, {
       method: "POST",
       body: JSON.stringify({ refresh: refresh }),
       headers: {

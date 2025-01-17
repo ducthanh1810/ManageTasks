@@ -8,8 +8,8 @@ export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     const response =
       id == -1
-        ? await api.get(`${API_BASE_URL}/api/${resource}/`)
-        : await api.get(`${API_BASE_URL}/api/${resource}/${id}`);
+        ? await api.get(`${API_BASE_URL}/${resource}/`)
+        : await api.get(`${API_BASE_URL}/${resource}/${id}`);
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -25,7 +25,7 @@ export const dataProvider: DataProvider = {
     }
 
     const response = await api.get(
-      `${API_BASE_URL}/api/${resource}?${params.toString()}/`
+      `${API_BASE_URL}/${resource}?${params.toString()}/`
     );
 
     if (response.status < 200 || response.status > 299) throw response;
@@ -36,7 +36,7 @@ export const dataProvider: DataProvider = {
   },
   update: async ({ resource, id, variables }) => {
     const response = await api.put(
-      `${API_BASE_URL}/api/${resource}/${id}/`,
+      `${API_BASE_URL}/${resource}/${id}/`,
       variables
     );
     if (response.status < 200 || response.status > 299) throw response;
@@ -67,7 +67,7 @@ export const dataProvider: DataProvider = {
       });
     }
     const response = await fetch(
-      `${API_BASE_URL}/api/${resource}/?${params.toString()}`,
+      `${API_BASE_URL}/${resource}/?${params.toString()}`,
       {
         method: "GET",
         headers: {
@@ -89,10 +89,10 @@ export const dataProvider: DataProvider = {
   create: async ({ resource, variables }) => {
     const accessToken = localStorage.getItem("access_token");
     // const response = await api.post(
-    //   `${API_BASE_URL}/api/${resource}/`,
+    //   `${API_BASE_URL}/${resource}/`,
     //   variables
     // );
-    const response = await fetch(`${API_BASE_URL}/api/${resource}/`, {
+    const response = await fetch(`${API_BASE_URL}/${resource}/`, {
       method: "POST",
       body: JSON.stringify(variables),
       headers: {
@@ -109,8 +109,8 @@ export const dataProvider: DataProvider = {
   },
   deleteOne: async ({ resource, id }) => {
     const accessToken = localStorage.getItem("access_token");
-    //const response = await api.delete(`${API_BASE_URL}/api/${resource}/${id}/`);
-    const response = await fetch(`${API_BASE_URL}/api/${resource}/${id}/`, {
+    //const response = await api.delete(`${API_BASE_URL}/${resource}/${id}/`);
+    const response = await fetch(`${API_BASE_URL}/${resource}/${id}/`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -127,7 +127,7 @@ export const dataProvider: DataProvider = {
 };
 const RefreshToken = async () => {
   const refresh = localStorage.getItem("refresh_token");
-  const response = await fetch(`${API_BASE_URL}/api/token/refresh/`, {
+  const response = await fetch(`${API_BASE_URL}/token/refresh/`, {
     method: "POST",
     body: JSON.stringify({ refresh: refresh }),
     headers: {
