@@ -10,12 +10,8 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
-# DEBUG = bool(os.environ.get("DEBUG", default=0))
-# ALLOWED_HOSTS = str(os.environ.get("DJANGO_ALLOWED_HOSTS")).split(" ")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
+DEBUG = bool(os.environ.get("DEBUG", default=0))
+ALLOWED_HOSTS = str(os.environ.get("DJANGO_ALLOWED_HOSTS")).split(" ")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
