@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { GetProp, TableProps } from "antd";
-import "./style.css";
+import "../../style.css";
 
 import {
   CreateButton,
@@ -16,11 +16,12 @@ import type { SorterResult } from "antd/es/table/interface";
 
 import {
   EditOutlined,
+  EyeOutlined,
   MailOutlined,
   PhoneOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Input, Space, Table } from "antd";
+import { Button, Card, Input, Space, Table, theme } from "antd";
 
 import { CustomAvatar, Text } from "@/components";
 import { ICustomer, IProject } from "@/model/types";
@@ -40,6 +41,7 @@ interface TableParams {
 
 export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
+  const { token } = theme.useToken();
 
   const [project, setProject] = useState<IProject[]>();
 
@@ -120,6 +122,7 @@ export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
         }
       >
         <Table
+          className="table-projects"
           dataSource={data?.data}
           pagination={{
             current: tableParams.pagination?.current,
@@ -127,7 +130,7 @@ export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
           }}
           rowKey={"id"}
           style={{
-            border: "1px solid #e8e8e8",
+            border: `1px solid ${token.colorBorder}`,
             borderRadius: "8px",
           }}
         >
@@ -169,7 +172,18 @@ export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
             render={(value) => (
               <Space>
                 <EditButton hideText size="small" recordItemId={value} />
-
+                <Button
+                  type="default"
+                  icon={<EyeOutlined />}
+                  size="small"
+                  onClick={() => {
+                    go({
+                      to: `task/show`,
+                      query: { id: value },
+                      type: "replace",
+                    });
+                  }}
+                />
                 <DeleteButton hideText size="small" recordItemId={value} />
               </Space>
             )}
@@ -194,6 +208,7 @@ export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
         }
       >
         <Table
+          className="table-projects"
           dataSource={customersData?.data}
           pagination={{
             current: tableCustomerParams.pagination?.current,
@@ -201,7 +216,7 @@ export const ProjectsPage = ({ children }: React.PropsWithChildren) => {
           }}
           rowKey={"id"}
           style={{
-            border: "1px solid #e8e8e8",
+            border: `1px solid ${token.colorBorder}`,
             borderRadius: "8px",
           }}
         >

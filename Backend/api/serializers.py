@@ -55,21 +55,6 @@ class EventSerializer(serializers.ModelSerializer):
             }
         }
 
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ["id", "title", "content", "type", "link", "link_image", "date", "created_at", "users", "completed"]
-        extra_kwargs = { 
-            "id":
-            {
-                "read_only": True
-            },
-            "created_at":
-            {
-                "read_only": True
-            },
-        }
-
 class UpdateTypeTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
@@ -79,7 +64,7 @@ class UpdateTypeTaskSerializer(serializers.ModelSerializer):
 class HistoryAbsentSerializer(serializers.ModelSerializer):
     class Meta:
         model = HistoryAbsent
-        fields = ["id","name", "content", "type", "date", "created_at", "author"]
+        fields = ["id","title", "content", "type", "date", "created_at", "author"]
         extra_kwargs = { 
             "id":
             {
@@ -119,10 +104,44 @@ class ProjectSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Project
-        fields = ["id", "title", "description", "customer", "expiration_date", "completed" , "tasks", "collaborative"]
+        fields = ["id", "title", "description", "customer", "expiration_date", "completed" , "image", "tasks", "collaborative"]
         extra_kwargs = { 
             "id":
             {
                 "read_only": True
             }
+        }
+
+class ProjectNotRelationshipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ["id", "title", "description", "customer", "image","expiration_date", "completed"]
+        extra_kwargs = { 
+            "id":
+            {
+                "read_only": True
+            }
+        }
+
+class TaskSerializer(serializers.ModelSerializer):
+    project_set = ProjectNotRelationshipSerializer(many=True, read_only=True)
+    users = ProfileSerializer(many=True, read_only=True)
+    class Meta:
+        model = Task
+        fields = ["id", "title", "content", "type", "link", "link_image", "date", "created_at", "users", "completed", "project_set"]
+        extra_kwargs = { 
+            "id":
+            {
+                "read_only": True
+            },
+            "users": {
+                "read_only": True
+            },
+            "project_set": {
+                "read_only": True
+            },
+            "created_at":
+            {
+                "read_only": True
+            },
         }

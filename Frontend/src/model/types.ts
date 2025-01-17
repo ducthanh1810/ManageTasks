@@ -4,7 +4,7 @@ export type IAbsent = {
   content: string;
   created_at: string;
   date: Date;
-  name: string;
+  title: string;
   type: string;
 };
 
@@ -34,6 +34,7 @@ export type IEvent = {
 
 export type ITotal = {
   event_count: string;
+  absent_count: string;
   task_count: string;
 };
 
@@ -45,8 +46,9 @@ export type ITask = {
   link: string;
   link_image: string;
   date: string;
-  users: string;
+  users: IProfile[];
   completed: boolean;
+  project_set: IProject[];
 };
 
 export type IProject = {
@@ -82,9 +84,15 @@ export type ITasksStages = {
   data?: ITask[];
 };
 
+export type ProjectTasksTotal = {
+  total: number;
+  total_working: number;
+  tasks: { label: string; value: number }[];
+};
+
 export const stages = ["Unassigned", "TODO", "Progress", "Review", "Done"];
 
-export type FilterTask = "date" | "type" | "completed";
+export type FilterTask = "date" | "type" | "completed" | "project";
 
 export type ContactStatus =
   | "CHURNED"

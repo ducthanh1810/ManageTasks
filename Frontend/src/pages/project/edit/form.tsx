@@ -1,16 +1,10 @@
 import { Edit, useForm, useSelect } from "@refinedev/antd";
-import { useResourceParams, type HttpError } from "@refinedev/core";
-import type {
-  GetFields,
-  GetFieldsFromList,
-  GetVariables,
-} from "@refinedev/nestjs-query";
+import { useResourceParams } from "@refinedev/core";
 
-import { DatePicker, Form, Input, InputNumber, Select, theme } from "antd";
+import { DatePicker, Form, Input, Select, theme } from "antd";
 
 import { CustomAvatar, SelectOptionWithAvatar } from "@/components";
 import { ICustomer, IProject } from "@/model/types";
-import { UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 
 export const ProjectForm = () => {
@@ -47,7 +41,8 @@ export const ProjectForm = () => {
       <Form {...formProps} layout="vertical">
         <CustomAvatar
           shape="square"
-          name={title || "Customer"}
+          name={title || "Project"}
+          src={formProps?.initialValues?.image}
           style={{
             width: 96,
             height: 96,

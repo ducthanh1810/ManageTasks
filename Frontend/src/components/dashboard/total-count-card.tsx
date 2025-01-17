@@ -12,7 +12,7 @@ import { Card, Skeleton } from "antd";
 
 import { Text } from "../text";
 
-type Type = "events" | "tasks" | "deals";
+type Type = "events" | "tasks" | "absents";
 
 type Props = {
   resource: Type;
@@ -65,7 +65,10 @@ export const DashboardTotalCountCard = ({
 
   return (
     <Card
-      style={{ height: "96px", padding: 0 }}
+      style={{
+        height: "96px",
+        padding: 0,
+      }}
       bodyStyle={{
         padding: "8px 8px 8px 12px",
       }}
@@ -86,6 +89,8 @@ export const DashboardTotalCountCard = ({
       </div>
       <div
         style={{
+          maxHeight: "45px",
+          maxWidth: "500px",
           display: "flex",
         }}
       >
@@ -116,7 +121,7 @@ export const DashboardTotalCountCard = ({
         <Area
           {...config}
           style={{
-            width: "60%",
+            width: "50%",
           }}
         />
       </div>
@@ -240,7 +245,7 @@ const variants: {
       },
     ],
   },
-  deals: {
+  absents: {
     primaryColor: "#FA541C",
     secondaryColor: "#FFD8BF",
     icon: (
@@ -253,7 +258,7 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Total deals in pipeline",
+    title: "Number of Absent",
     data: [
       {
         index: "1",

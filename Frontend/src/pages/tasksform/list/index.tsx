@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Card, Checkbox, DatePicker, theme } from "antd";
+import { Card, Checkbox, DatePicker, Select, theme } from "antd";
 import {
   KanbanBoard,
   KanbanBoardContainer,
@@ -18,6 +18,7 @@ import {
   stages,
   ITasksStages,
   FilterTask,
+  IProject,
 } from "../../../model/types";
 import {
   CrudFilter,
@@ -30,6 +31,8 @@ import {
 } from "@refinedev/core";
 import { DragEndEvent } from "@dnd-kit/core";
 import { formatDate } from "../../../utilities";
+import { useSelect } from "@refinedev/antd";
+import { SelectOptionWithAvatar } from "@/components";
 
 const FilterTaskHandle = ({}) => {
   const filter: { field: string; order: string }[] = [];
@@ -70,6 +73,14 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
     });
     return grouped;
   }, [list_tasks]);
+
+  const { selectProps, queryResult: queryResultUsers } = useSelect<IProject>({
+    resource: "projects",
+    optionLabel: "title",
+    pagination: {
+      mode: "off",
+    },
+  });
 
   const handleAddCard = (args: { stageId: string }) => {
     const path = `/tasks/new/?stageId=${args.stageId}`;
@@ -133,19 +144,10 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
   return (
     <div>
       <div
+        className="search-bar-task"
         style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-          padding: "10px",
           background: token.colorBgContainer,
-          borderRadius: "8px",
-          display: "flex",
-          gap: "50px",
-          fontWeight: "normal",
-          alignItems: "center",
           color: token.colorText,
-          zIndex: 99,
         }}
       >
         <span style={{ fontWeight: "600" }}>Search by:</span>
@@ -164,6 +166,30 @@ export const ListTasksPage = ({ children }: React.PropsWithChildren) => {
                 operator: "gte",
                 value: formatDate(data),
               })
+            }
+          />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span>Project:</span>
+          <Select
+            {...selectProps}
+            allowClear
+            style={{ width: "200px" }}
+            placeholder="Select a project"
+            onChange={(value) =>
+              setFilterHandle({
+                field: "project",
+                operator: "eq",
+                value: value || "",
+              })
+            }
+            options={
+              queryResultUsers.data?.data?.map(({ id, title, image }) => ({
+                value: id,
+                label: (
+                  <SelectOptionWithAvatar name={title} avatarUrl={image} />
+                ),
+              })) ?? []
             }
           />
         </div>

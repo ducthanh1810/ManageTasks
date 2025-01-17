@@ -55,7 +55,7 @@ class Task(models.Model):
     link_image = models.TextField(null=True)
     date = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    users = models.TextField(null=True)
+    users = models.ManyToManyField(Profile)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -76,7 +76,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=100, db_index=True)
     phone = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
+    address = models.CharField(max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -85,7 +85,7 @@ class Customer(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name="projects")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="projects")
     expiration_date = models.DateTimeField()
     image = models.ImageField(upload_to="images", default="default.jpg")
     completed = models.BooleanField(default=False)
@@ -96,4 +96,9 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+class UserTask():
+    def __init__(self, user: str, total: int):
+        self.label = user
+        self.value = total
     

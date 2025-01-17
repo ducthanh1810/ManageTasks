@@ -49,7 +49,6 @@ export const ProjectContactsTable = ({
   const [api, contextHolder] = notification.useNotification();
 
   const [collaborative, setCollaborative] = useState();
-  const [isRefetch, setIsRefetch] = useState(false);
 
   const { mutate: AddContact } = useUpdate({});
   const { mutate: RemoveContact } = useUpdate({});
@@ -57,10 +56,8 @@ export const ProjectContactsTable = ({
   const { tableProps } = useTable<IProfile>({
     resource: resource,
     // resource: "project/contacts",
-    syncWithLocation: false,
-
     queryOptions: {
-      enabled: isRefetch,
+      refetchOnMount: true,
     },
 
     filters: {
@@ -94,7 +91,6 @@ export const ProjectContactsTable = ({
             action: "add",
           },
           successNotification: () => {
-            setIsRefetch(true);
             return {
               message: `Add Contact Successfully`,
               description: "Success with no errors",
@@ -121,7 +117,6 @@ export const ProjectContactsTable = ({
         action: "remove",
       },
       successNotification: () => {
-        setIsRefetch(true);
         return {
           message: `Remove Contact Successfully`,
           description: "Success with no errors",
@@ -157,7 +152,7 @@ export const ProjectContactsTable = ({
       >
         <Table
           {...tableProps}
-          rowKey="id"
+          rowKey="user"
           pagination={{
             ...tableProps.pagination,
             showSizeChanger: false,

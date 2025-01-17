@@ -23,11 +23,8 @@ import { UsersForm } from "./forms/users/users-form";
 import { UsersHeader } from "./forms/users/users-header";
 import { useSearchParams } from "react-router-dom";
 import api from "../../../api";
-
-type User = {
-  id: string;
-  last_name: string;
-};
+import { ProjectHeader } from "./forms/project/project-header";
+import { ProjectForm } from "./forms/project/project-form";
 
 export const TasksEditPage = () => {
   const invalidate = useInvalidate();
@@ -44,7 +41,7 @@ export const TasksEditPage = () => {
     },
     autoResetForm: false,
   });
-  const { id, content, type, date, users, completed } =
+  const { id, content, type, date, users, completed, project_set } =
     queryResult?.data?.data[0] ?? {};
   const isLoading = queryResult?.isLoading ?? true;
 
@@ -55,15 +52,6 @@ export const TasksEditPage = () => {
   useEffect(() => {
     setTitle(queryResult?.data?.data[0].title || "");
   }, [queryResult?.data?.data]);
-
-  const list_users = useMemo(() => {
-    var list: User[] = [];
-    const data = users?.split("|");
-    data?.slice(0, data.length - 1).map((user) => {
-      list.push({ id: user.split(",")[1], last_name: user.split(",")[0] });
-    });
-    return list;
-  }, [users]);
 
   const handleCancel = (value?: string) => {
     if (value) setActiveKey(value);
@@ -142,19 +130,41 @@ export const TasksEditPage = () => {
         accordionKey="users"
         activeKey={activeKey}
         setActive={handleCancel}
-        fallback={<UsersHeader users={list_users} />}
+        fallback={<UsersHeader users={users} />}
         isLoading={isLoading}
         icon={<UsergroupAddOutlined />}
         label="Users"
       >
         <UsersForm
           taskId={id}
-          initialValues={{
-            users: list_users?.map((user) => ({
-              label: user.last_name,
-              value: user.id,
-            })),
-          }}
+          initialValues={
+            users?.map((user) => ({
+              label: user.full_name,
+              value: user.user,
+            })) || []
+          }
+          cancelForm={handleCancel}
+        />
+      </Accordion>
+      <Accordion
+        accordionKey="project"
+        activeKey={activeKey}
+        setActive={handleCancel}
+        fallback={<ProjectHeader project={project_set?.[0]} />}
+        isLoading={isLoading}
+        icon={<UsergroupAddOutlined />}
+        label="Project"
+      >
+        <ProjectForm
+          taskId={id}
+          initialValues={
+            project_set && project_set.length > 0
+              ? {
+                  label: project_set?.[0].title,
+                  value: project_set?.[0].id,
+                }
+              : undefined
+          }
           cancelForm={handleCancel}
         />
       </Accordion>

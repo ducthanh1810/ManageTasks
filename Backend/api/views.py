@@ -9,8 +9,9 @@ from .serializers import UserSerializer, EventSerializer, TaskSerializer, Histor
 from .serializers import CustomerSerializer, ProfileSerializer, ProjectSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.utils import timezone
-from .models import Task, Event, HistoryAbsent, Project, Customer, Profile
+from .models import Task, Event, HistoryAbsent, Project, Customer, Profile, UserTask
 from datetime import date, timedelta, datetime
+from typing import List
 
 # ---------------------- User API Views ----------------------
 class CreateUserView(generics.CreateAPIView):
@@ -118,21 +119,24 @@ class TaskListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        queryset = Task.objects.all().order_by('-date')
         completed_eq = self.request.GET.get('completed_eq', 'false')
         date_gte = self.request.GET.get('date_gte')
+        project_id = self.request.GET.get('project_eq')
         task_id = self.request.GET.get('id')
 
-        if completed_eq.lower() == 'true':
-            queryset = Task.objects.all().order_by('-date')
-        else:
-            queryset = Task.objects.filter(completed=False).order_by('-date')
+        if task_id is not None:
+            queryset = queryset.filter(id=task_id)
+            return queryset
+        if project_id:
+            queryset = Project.objects.filter(id=project_id).first().tasks.all()
+        if completed_eq.lower() == 'false':
+            queryset = queryset.filter(completed=False).order_by('-date')
         if date_gte is not None:
             try:
                 queryset = queryset.filter(date__gte=date_gte)
             except:
                 pass
-        if task_id is not None:
-            queryset = queryset.filter(id=task_id)
 
         return queryset
     
@@ -175,11 +179,18 @@ class UpdateTaskView(APIView):
                 snippet.type = data.get('type')
 
         if (data.get('users')):
-            snippet.users = data.get('users')
+            list_users = data.get('users')
+            if list_users:
+                snippet.users.clear()
+                for user in list_users:
+                    snippet.users.add(Profile.objects.get(user=user["value"]))
         if (data.get('date')):
             snippet.date = data.get('date')
         if (data.get('completed')):
             snippet.completed = data.get('completed')
+        if (data.get('project')):
+            snippet.project_set.clear()
+            snippet.project_set.add(Project.objects.get(id=data.get('project')))
         snippet.save()
         return Response(status=status.HTTP_200_OK)
 
@@ -195,6 +206,35 @@ class UpdateTypeTaskView(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         serializer.save()
+
+
+class ProjectTasksView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        project = Project.objects.get(id=pk)
+        tasks = project.tasks.all()
+        total : List[UserTask] = []
+        serializer = TaskSerializer(tasks, many=True)
+        count_tasks = len(serializer.data)
+        for task in serializer.data:
+            users = task.get('users')
+            for user in users:
+                isHave = False
+                for user_task in total:
+                    if user_task.label == user.get('full_name'):
+                        user_task.value += 1
+                        isHave = True
+                        break
+                if not isHave:
+                    total.append(UserTask(user.get('full_name'), 1))
+                                 
+        data = {
+            "total": count_tasks,
+            "total_working": sum(x.value for x in total if x.value > 0),
+            "tasks": [x.__dict__ for x in total]
+        }
+        return Response(data, status=status.HTTP_200_OK)
 
 
 # ---------------------- Absent API Views ----------------------
@@ -231,7 +271,7 @@ class AbsentDelete(generics.DestroyAPIView):
 class UpdateAbsentView(generics.UpdateAPIView):
     serializer_class = HistoryAbsentSerializer
     permission_classes = [IsAuthenticated]
-    fields = ['name', 'content', 'type', 'date']
+    fields = ['title', 'content', 'type', 'date']
 
     def get_queryset(self):
             user = HistoryAbsent.objects.filter(author=self.request.user)
@@ -244,9 +284,10 @@ class TotalCountView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request, *args, **kwargs):
-        task_count = Task.objects.exclude(type = "Done").count()
+        task_count = Task.objects.filter(completed=False).exclude(type = "Done").count()
+        absent_count = HistoryAbsent.objects.filter(date__gte = (date.today()-timedelta(days=1))).count()
         event_count = Event.objects.filter(date__gte = (date.today()-timedelta(days=1))).count()
-        return Response({"task_count": task_count, "event_count": event_count}, 200)
+        return Response({"task_count": task_count, "absent_count": absent_count, "event_count": event_count}, 200)
     
 # ---------------------- Customer API Views ----------------------
 class CustomersView(generics.ListCreateAPIView):

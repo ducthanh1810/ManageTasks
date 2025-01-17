@@ -1,3 +1,4 @@
+import { IProfile } from "@/model/types";
 import { log } from "@antv/g2plot/lib/utils";
 import { useForm, useSelect } from "@refinedev/antd";
 import { HttpError, useInvalidate, useUpdate } from "@refinedev/core";
@@ -12,16 +13,12 @@ import React, { useRef, useState } from "react";
 
 type Props = {
   taskId?: string;
-  initialValues: {
-    users?: { label: string; value: string }[];
-  };
+  initialValues: { label: string; value: string }[];
+
   cancelForm: () => void;
 };
 
-type initialValues = {
-  users?: { label: string; value: string }[];
-};
-
+type initialValues = { label: string; value: string }[];
 interface User {
   id: string;
   last_name: string;
@@ -43,27 +40,23 @@ export const UsersForm = ({ taskId, initialValues, cancelForm }: Props) => {
   //   },
   //   redirect: false,
   // });
-  const { selectProps } = useSelect<User>({
-    resource: "users/name",
-    optionLabel: "last_name",
-    optionValue: "id",
+  const { selectProps } = useSelect<IProfile>({
+    resource: "profiles",
+    optionLabel: "full_name",
+    optionValue: "user",
   });
 
   const handleChange = (value: any) => {
-    var user: string = "";
-    value.map((value: any) => {
-      user = user + `${value.label}, ${value.value}|`;
-    });
     mutate(
       {
         resource: "tasks/update",
         id: taskId!,
-        values: { users: user },
+        values: { users: value },
         successNotification: false,
       },
       {
         onSuccess: () => {
-          setInitialValues({ users: value });
+          setInitialValues(value);
         },
       }
     );

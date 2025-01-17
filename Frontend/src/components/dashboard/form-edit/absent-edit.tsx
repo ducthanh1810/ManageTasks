@@ -14,12 +14,6 @@ import TextArea from "@uiw/react-md-editor/lib/components/TextArea/index.nohighl
 
 const { useToken } = theme;
 
-type FieldType = {
-  name?: string;
-  content?: string;
-  type?: string;
-  date?: Date;
-};
 type Props = {
   opened: boolean;
   setOpened: (opened: boolean) => void;
@@ -50,11 +44,11 @@ export const AbsentEdit = ({
     },
   });
 
-  const onSubmit: FormProps<FieldType>["onFinish"] = (values) => {
+  const onSubmit: FormProps<IAbsent>["onFinish"] = (values) => {
     type == "create" ? onFinish(values) : updateAbsent(values);
   };
 
-  const updateAbsent = async (value: FieldType) => {
+  const updateAbsent = async (value: IAbsent) => {
     await mutate({
       resource: "absent/update",
       id: _absent?.id!,
@@ -109,7 +103,7 @@ export const AbsentEdit = ({
         {opened && (
           <Card>
             <Form onFinish={onSubmit} layout="vertical" initialValues={_absent}>
-              <Form.Item label="Name" name="name">
+              <Form.Item label="Name" name="title">
                 {type === "create" && <Input placeholder={"Name"} />}
                 {type === "show" && <Input />}
                 {type === "edit" && <Input />}

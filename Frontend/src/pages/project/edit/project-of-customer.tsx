@@ -1,26 +1,13 @@
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 import { FilterDropdown, useTable, useSelect } from "@refinedev/antd";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import {
-  CloseOutlined,
-  MailOutlined,
-  PhoneOutlined,
-  SearchOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
-import { Button, Card, Input, notification, Select, Space, Table } from "antd";
+import { SearchOutlined, TeamOutlined } from "@ant-design/icons";
+import { Card, Input, Space, Table } from "antd";
 
-import {
-  ContactStatusTag,
-  CustomAvatar,
-  SelectOptionWithAvatar,
-  Text,
-} from "@/components";
-import { ContactStatus, ICustomer, IProfile, IProject } from "@/model/types";
+import { CustomAvatar, Text } from "@/components";
+import { IProfile, IProject } from "@/model/types";
 import { useUpdate } from "@refinedev/core";
-import { useState } from "react";
 import { API_BASE_URL } from "@/providers";
 
 export const ProjectOfCustomerTable = ({
@@ -30,7 +17,9 @@ export const ProjectOfCustomerTable = ({
   resource: string;
   field: string;
 }) => {
-  const params = useParams();
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const id = Number(query.get("id")) || 0;
 
   const { mutate } = useUpdate();
   const { tableProps } = useTable<IProject>({
@@ -42,7 +31,7 @@ export const ProjectOfCustomerTable = ({
         {
           field: field,
           operator: "eq",
-          value: params?.id as string,
+          value: id,
         },
       ],
     },

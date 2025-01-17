@@ -1,19 +1,17 @@
 import { Space, Tag } from "antd";
 import { CustomAvatar } from "../custom-avatar";
+import { useId } from "react";
 
 type Props = {
-  user: User;
+  name: string;
+  avatarUrl?: string;
 };
 
-type User = {
-  id: string;
-  last_name: string;
-};
-
-export const UserTag = ({ user }: Props) => {
+export const UserTag = ({ name, avatarUrl }: Props) => {
+  const id = useId();
   return (
     <Tag
-      key={user.id}
+      key={id}
       style={{
         padding: 2,
         paddingRight: 8,
@@ -24,10 +22,11 @@ export const UserTag = ({ user }: Props) => {
     >
       <Space size={4}>
         <CustomAvatar
-          name={user.last_name}
+          name={name}
+          src={avatarUrl}
           style={{ display: "inline-flex" }}
         />
-        {user.last_name}
+        {name}
       </Space>
     </Tag>
   );

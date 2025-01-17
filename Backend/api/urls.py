@@ -31,6 +31,8 @@ urlpatterns = [
     path("projects/", views.ProjectsView.as_view(), name = "projects-list"),
     path("project/contacts/", views.ProjectContactsViewSet.as_view(), name = "project-contacts"),
     path("project/contacts/<int:pk>/", views.UpdateProjectCollaborative.as_view(), name = "update-project-collaborative"),
+    path("project/tasks/<int:pk>", views.ProjectTasksView.as_view(), name = "project-tasks"),
+    path("project/tasks/<int:pk>/", views.ProjectTasksView.as_view(), name = "project-tasks"),
 
     # Customerd url
     path("customer/<int:pk>/", views.CustomerView.as_view(), name = "customer"),

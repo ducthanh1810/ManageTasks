@@ -26,6 +26,7 @@ import {
 } from "./pages/index";
 import { resources } from "./config/resources";
 import {
+  ChartTaskPage,
   CustomerCreatePage,
   ProjectCreatePage,
   ProjectsPage,
@@ -78,12 +79,13 @@ function App() {
                       path="customer/edit"
                       element={<CustomerEditPage />}
                     />
+                    <Route path="task/show" element={<ChartTaskPage />} />
                     <Route path="edit/:id" element={<ProjectEditPage />} />
                   </Route>
-                  <Route path="/customer">
+                  {/* <Route path="/customer">
                     <Route path="new" element={<CustomerCreatePage />} />
                     <Route path="edit" element={<CustomerEditPage />} />
-                  </Route>
+                  </Route> */}
                   <Route
                     path="/tasks"
                     element={

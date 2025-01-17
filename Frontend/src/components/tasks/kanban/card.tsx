@@ -24,19 +24,15 @@ import { getDateColor } from "../../../utilities";
 import dayjs from "dayjs";
 import { CustomAvatar } from "../../custom-avatar";
 import { useDelete, useNavigation } from "@refinedev/core";
+import { IProfile } from "@/model/types";
 
 type ProjectCardProps = {
   id: string;
   title: string;
   dueDate?: string;
-  users?: string;
+  users?: IProfile[];
   reloaded: boolean;
   setReloaded: (reloaded: boolean) => void;
-};
-
-type User = {
-  id: string;
-  name: string;
 };
 
 export const ProjectCard = ({
@@ -51,14 +47,6 @@ export const ProjectCard = ({
   const { edit } = useNavigation();
   const { mutate: deleteTask } = useDelete();
 
-  const list_users = useMemo(() => {
-    var list: User[] = [];
-    const data = users?.split("|");
-    data?.slice(0, data.length - 1).map((user) => {
-      list.push({ id: user.split(",")[1], name: user.split(",")[0] });
-    });
-    return list;
-  }, [users]);
   const dropdownItems = useMemo(() => {
     const dropdownItems: MenuProps["items"] = [
       {
@@ -175,7 +163,7 @@ export const ProjectCard = ({
               {dueDateOptions.text}
             </Tag>
           )}
-          {!!list_users?.length && (
+          {!!users?.length && (
             <Space
               size={4}
               wrap
@@ -188,10 +176,10 @@ export const ProjectCard = ({
                 marginRight: "0",
               }}
             >
-              {list_users.map((user) => {
+              {users.map((user) => {
                 return (
-                  <Tooltip key={user.id} title={user.name}>
-                    <CustomAvatar name={user.name} />
+                  <Tooltip key={user.user} title={user.full_name}>
+                    <CustomAvatar name={user.full_name} />
                   </Tooltip>
                 );
               })}

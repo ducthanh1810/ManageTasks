@@ -9,7 +9,10 @@ export const API_BASE_URL = "http://localhost:8000";
 export const dataProvider: DataProvider = {
   getApiUrl: () => API_BASE_URL,
   getOne: async ({ resource, id }) => {
-    const response = await api.get(`${API_BASE_URL}/api/${resource}/${id}`);
+    const response =
+      id == -1
+        ? await api.get(`${API_BASE_URL}/api/${resource}/`)
+        : await api.get(`${API_BASE_URL}/api/${resource}/${id}`);
 
     if (response.status < 200 || response.status > 299) throw response;
 

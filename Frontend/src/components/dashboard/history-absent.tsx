@@ -29,7 +29,7 @@ import { AbsentEdit } from "./form-edit/absent-edit";
 import { IAbsent } from "../../model/types";
 import dayjs from "dayjs";
 
-export const HistoryAbsent = () => {
+export const HistoryAbsent = ({ reLoadTotal }: { reLoadTotal: () => void }) => {
   const [field, setField] = useState<any>([
     {
       field: "date",
@@ -51,11 +51,15 @@ export const HistoryAbsent = () => {
     filters: field,
     queryOptions: {
       enabled: isReload,
+      onSuccess: () => {
+        reLoadTotal();
+      },
     },
   });
   const { mutate } = useDelete();
 
   useEffect(() => {
+    reLoadTotal();
     setReload(true);
   }, [isReload]);
 
@@ -64,6 +68,7 @@ export const HistoryAbsent = () => {
       resource: "absent/delete",
       id: id,
       successNotification: (data, values, resource) => {
+        reLoadTotal();
         return {
           message: `Delete Successfully.`,
           description: "Success with no errors",
@@ -166,7 +171,7 @@ export const HistoryAbsent = () => {
               <List.Item>
                 <List.Item.Meta
                   avatar={<Badge color="yellow" />}
-                  title={<Text size="xs">{item.name}</Text>}
+                  title={<Text size="xs">{item.title}</Text>}
                   description={
                     <Text ellipsis={{ tooltip: true }} strong>
                       {item.content +
