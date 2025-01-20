@@ -99,7 +99,7 @@ export const EventEdit = ({
           backgroundColor: token.colorBgBlur,
         }}
       >
-        <Text strong>Absent Edit</Text>
+        <Text strong>Event Edit</Text>
         <Button
           type="text"
           icon={<CloseOutlined />}
